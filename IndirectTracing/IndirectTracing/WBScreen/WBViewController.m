@@ -1,18 +1,18 @@
 //
-//  NavigationViewController.m
+//  WBViewController.m
 //  IndirectTracing
 //
-//  Created by HU Siyan on 16/6/2020.
+//  Created by HU Siyan on 17/6/2020.
 //  Copyright © 2020 HU Siyan. All rights reserved.
 //
 
-#import "NavigationViewController.h"
+#import "WBViewController.h"
 
-@interface NavigationViewController ()
+@interface WBViewController ()
 
 @end
 
-@implementation NavigationViewController
+@implementation WBViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

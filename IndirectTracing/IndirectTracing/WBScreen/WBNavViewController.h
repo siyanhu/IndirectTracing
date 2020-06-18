@@ -1,8 +1,8 @@
 //
-//  NavigationViewController.h
+//  WBNavViewController.h
 //  IndirectTracing
 //
-//  Created by HU Siyan on 16/6/2020.
+//  Created by HU Siyan on 17/6/2020.
 //  Copyright © 2020 HU Siyan. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NavigationViewController : UINavigationController
+@interface WBNavViewController : UINavigationController
 
 @end
 

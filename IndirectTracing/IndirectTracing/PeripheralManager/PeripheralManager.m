@@ -43,27 +43,27 @@
         }
             break;
         case CBManagerStateUnknown: {
-            strMessage = @"手机没有识别到蓝牙，请检查手机。";
-            buttonTitle = @"前往设置";
+            strMessage = @"No Bluetooth access.";
+            buttonTitle = @"Go to settings.";
         }
             break;
         case CBManagerStateResetting: {
-            strMessage = @"手机蓝牙已断开连接，重置中...";
-            buttonTitle = @"前往设置";
+            strMessage = @"Bluetooth resetting";
+            buttonTitle = @"Go to settings";
         }
             break;
         case CBManagerStateUnsupported: {
-            strMessage = @"手机不支持蓝牙功能，请更换手机。";
+            strMessage = @"Bluetooth not supported.";
         }
             break;
         case CBManagerStatePoweredOff: {
-            strMessage = @"手机蓝牙功能关闭，请前往设置打开蓝牙及控制中心打开蓝牙。";
-            buttonTitle = @"前往设置";
+            strMessage = @"Bluetooth powered off. Please turn it on.";
+            buttonTitle = @"Go to settings.";
         }
             break;
         case CBManagerStateUnauthorized: {
-            strMessage = @"手机蓝牙功能没有权限，请前往设置。";
-            buttonTitle = @"前往设置";
+            strMessage = @"Bluetooth not authorised. Please turn it on.";
+            buttonTitle = @"Go to settings.";
         }
             break;
         default: { }
@@ -71,10 +71,6 @@
     }
     //通知没有打开蓝牙的自定义提示弹窗（弹窗代码自行实现）
    // [self __broadAlertMessage:strMessage buttonTitle:buttonTitle];
-}
-
-- (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
-    
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "IntroViewController.h"
+#import "WBNavViewController.h"
 #import "Localizer.h"
 #import "LogTool.h"
 
@@ -59,8 +60,14 @@ static NSString *INTROVC_ERROR_TAG = @"INTROVC_ERROR";
     self.button_down_height.constant = 0;
     [self.view updateConstraints];
     [self.view layoutIfNeeded];
+    [self.buttonup layoutIfNeeded];
+    [self.buttondown updateConstraints];
+    [self.view updateConstraints];
+    [self.view layoutSubviews];
     NSString *up_str = [[Localizer sharedinstance] getLocalizedStringFrom:@"FIRST_INTRO_BUTTON_UP" alter:@""];
     [self.buttonup setTitle:up_str forState:UIControlStateNormal];
+    [self.buttondown setHidden:YES];
+    [self.buttondown setUserInteractionEnabled:NO];
 }
 
 - (void)hideGetStartedView {
@@ -73,6 +80,8 @@ static NSString *INTROVC_ERROR_TAG = @"INTROVC_ERROR";
     [self.view layoutIfNeeded];
     NSString *up_str = [[Localizer sharedinstance] getLocalizedStringFrom:@"SECOND_INTRO_BUTTON_UP" alter:@""];
     [self.buttonup setTitle:up_str forState:UIControlStateNormal];
+    [self.buttondown setHidden:NO];
+    [self.buttondown setUserInteractionEnabled:YES];
 }
 
 - (void)hideAccessView {
@@ -87,11 +96,11 @@ static NSString *INTROVC_ERROR_TAG = @"INTROVC_ERROR";
         [[Localizer sharedinstance] modifypreset:@"FIRST_ACCESS" withContent:@"false"];
     } else {
         
+        [self performSegueWithIdentifier:@"toWBNav" sender:self];
     }
 }
 
 - (IBAction)buttondown:(id)sender {
-    
 }
 
 #pragma mark - Private Functions

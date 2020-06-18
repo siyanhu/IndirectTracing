@@ -14,7 +14,6 @@
 		0BD7ECD5249863FE00DECEB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BD7ECD3249863FE00DECEB6 /* LaunchScreen.storyboard */; };
 		0BD7ECD8249863FE00DECEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECD7249863FE00DECEB6 /* main.m */; };
 		0BD7ECE524988EC300DECEB6 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECE424988EC300DECEB6 /* IntroViewController.m */; };
-		0BD7ECE924988EED00DECEB6 /* NavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECE824988EED00DECEB6 /* NavigationViewController.m */; };
 		0BD7ECEF2498990000DECEB6 /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECEE2498990000DECEB6 /* Localizer.m */; };
 		0BD7ECF224989A6400DECEB6 /* savedstatus.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD7ECF124989A6400DECEB6 /* savedstatus.plist */; };
 		0BD7ECF524989B5500DECEB6 /* LogTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECF424989B5500DECEB6 /* LogTool.m */; };
@@ -22,6 +21,8 @@
 		0BD7ECFB2498A90B00DECEB6 /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECFA2498A90B00DECEB6 /* FileManager.m */; };
 		0BD7ECFE2498B40200DECEB6 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD7ECFD2498B40200DECEB6 /* CoreBluetooth.framework */; };
 		0BD7ED022498B43E00DECEB6 /* PeripheralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ED012498B43E00DECEB6 /* PeripheralManager.m */; };
+		0BD7ED0C2499B84C00DECEB6 /* WBNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ED0B2499B84C00DECEB6 /* WBNavViewController.m */; };
+		0BD7ED0F2499B85B00DECEB6 /* WBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ED0E2499B85B00DECEB6 /* WBViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +38,6 @@
 		0BD7ECD7249863FE00DECEB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0BD7ECE324988EC300DECEB6 /* IntroViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
 		0BD7ECE424988EC300DECEB6 /* IntroViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
-		0BD7ECE724988EED00DECEB6 /* NavigationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationViewController.h; sourceTree = "<group>"; };
-		0BD7ECE824988EED00DECEB6 /* NavigationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationViewController.m; sourceTree = "<group>"; };
 		0BD7ECED2498990000DECEB6 /* Localizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Localizer.h; sourceTree = "<group>"; };
 		0BD7ECEE2498990000DECEB6 /* Localizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Localizer.m; sourceTree = "<group>"; };
 		0BD7ECF0249899C200DECEB6 /* constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constant.h; sourceTree = "<group>"; };
@@ -51,6 +50,10 @@
 		0BD7ECFD2498B40200DECEB6 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		0BD7ED002498B43E00DECEB6 /* PeripheralManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeripheralManager.h; sourceTree = "<group>"; };
 		0BD7ED012498B43E00DECEB6 /* PeripheralManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeripheralManager.m; sourceTree = "<group>"; };
+		0BD7ED0A2499B84C00DECEB6 /* WBNavViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBNavViewController.h; sourceTree = "<group>"; };
+		0BD7ED0B2499B84C00DECEB6 /* WBNavViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBNavViewController.m; sourceTree = "<group>"; };
+		0BD7ED0D2499B85B00DECEB6 /* WBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBViewController.h; sourceTree = "<group>"; };
+		0BD7ED0E2499B85B00DECEB6 /* WBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,10 +88,10 @@
 		0BD7ECC4249863FC00DECEB6 /* IndirectTracing */ = {
 			isa = PBXGroup;
 			children = (
+				0BD7ED092499B83500DECEB6 /* WBScreen */,
 				0BD7ECFF2498B42800DECEB6 /* PeripheralManager */,
 				0BD7ECF82498A8F600DECEB6 /* FileControl */,
 				0BD7ECEA2498983400DECEB6 /* Settings */,
-				0BD7ECE624988ED200DECEB6 /* NavigationControl */,
 				0BD7ECE224988E9A00DECEB6 /* IntroScreen */,
 				0BD7ECC5249863FC00DECEB6 /* AppDelegate.h */,
 				0BD7ECC6249863FC00DECEB6 /* AppDelegate.m */,
@@ -110,15 +113,6 @@
 				0BD7ECE424988EC300DECEB6 /* IntroViewController.m */,
 			);
 			path = IntroScreen;
-			sourceTree = "<group>";
-		};
-		0BD7ECE624988ED200DECEB6 /* NavigationControl */ = {
-			isa = PBXGroup;
-			children = (
-				0BD7ECE724988EED00DECEB6 /* NavigationViewController.h */,
-				0BD7ECE824988EED00DECEB6 /* NavigationViewController.m */,
-			);
-			path = NavigationControl;
 			sourceTree = "<group>";
 		};
 		0BD7ECEA2498983400DECEB6 /* Settings */ = {
@@ -159,6 +153,17 @@
 				0BD7ED012498B43E00DECEB6 /* PeripheralManager.m */,
 			);
 			path = PeripheralManager;
+			sourceTree = "<group>";
+		};
+		0BD7ED092499B83500DECEB6 /* WBScreen */ = {
+			isa = PBXGroup;
+			children = (
+				0BD7ED0A2499B84C00DECEB6 /* WBNavViewController.h */,
+				0BD7ED0B2499B84C00DECEB6 /* WBNavViewController.m */,
+				0BD7ED0D2499B85B00DECEB6 /* WBViewController.h */,
+				0BD7ED0E2499B85B00DECEB6 /* WBViewController.m */,
+			);
+			path = WBScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,11 +240,12 @@
 			files = (
 				0BD7ECE524988EC300DECEB6 /* IntroViewController.m in Sources */,
 				0BD7ECEF2498990000DECEB6 /* Localizer.m in Sources */,
-				0BD7ECE924988EED00DECEB6 /* NavigationViewController.m in Sources */,
 				0BD7ECF524989B5500DECEB6 /* LogTool.m in Sources */,
 				0BD7ED022498B43E00DECEB6 /* PeripheralManager.m in Sources */,
 				0BD7ECC7249863FC00DECEB6 /* AppDelegate.m in Sources */,
+				0BD7ED0F2499B85B00DECEB6 /* WBViewController.m in Sources */,
 				0BD7ECD8249863FE00DECEB6 /* main.m in Sources */,
+				0BD7ED0C2499B84C00DECEB6 /* WBNavViewController.m in Sources */,
 				0BD7ECCA249863FC00DECEB6 /* SceneDelegate.m in Sources */,
 				0BD7ECFB2498A90B00DECEB6 /* FileManager.m in Sources */,
 			);
