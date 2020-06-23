@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B96378C24A1AE8000C5C881 /* WBConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B96378B24A1AE8000C5C881 /* WBConnector.m */; };
 		0BD7ECC7249863FC00DECEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECC6249863FC00DECEB6 /* AppDelegate.m */; };
 		0BD7ECCA249863FC00DECEB6 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECC9249863FC00DECEB6 /* SceneDelegate.m */; };
 		0BD7ECD0249863FC00DECEB6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BD7ECCE249863FC00DECEB6 /* Main.storyboard */; };
@@ -20,12 +21,13 @@
 		0BD7ECF72498A85A00DECEB6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BD7ECF62498A85A00DECEB6 /* Localizable.strings */; };
 		0BD7ECFB2498A90B00DECEB6 /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ECFA2498A90B00DECEB6 /* FileManager.m */; };
 		0BD7ECFE2498B40200DECEB6 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD7ECFD2498B40200DECEB6 /* CoreBluetooth.framework */; };
-		0BD7ED022498B43E00DECEB6 /* PeripheralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ED012498B43E00DECEB6 /* PeripheralManager.m */; };
 		0BD7ED0C2499B84C00DECEB6 /* WBNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ED0B2499B84C00DECEB6 /* WBNavViewController.m */; };
 		0BD7ED0F2499B85B00DECEB6 /* WBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7ED0E2499B85B00DECEB6 /* WBViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B96378A24A1AE8000C5C881 /* WBConnector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBConnector.h; sourceTree = "<group>"; };
+		0B96378B24A1AE8000C5C881 /* WBConnector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBConnector.m; sourceTree = "<group>"; };
 		0BD7ECC2249863FC00DECEB6 /* IndirectTracing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndirectTracing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD7ECC5249863FC00DECEB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0BD7ECC6249863FC00DECEB6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -48,8 +50,6 @@
 		0BD7ECF92498A90B00DECEB6 /* FileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileManager.h; sourceTree = "<group>"; };
 		0BD7ECFA2498A90B00DECEB6 /* FileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileManager.m; sourceTree = "<group>"; };
 		0BD7ECFD2498B40200DECEB6 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		0BD7ED002498B43E00DECEB6 /* PeripheralManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeripheralManager.h; sourceTree = "<group>"; };
-		0BD7ED012498B43E00DECEB6 /* PeripheralManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeripheralManager.m; sourceTree = "<group>"; };
 		0BD7ED0A2499B84C00DECEB6 /* WBNavViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBNavViewController.h; sourceTree = "<group>"; };
 		0BD7ED0B2499B84C00DECEB6 /* WBNavViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBNavViewController.m; sourceTree = "<group>"; };
 		0BD7ED0D2499B85B00DECEB6 /* WBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBViewController.h; sourceTree = "<group>"; };
@@ -68,6 +68,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B96378924A1AE6700C5C881 /* WristbandConnector */ = {
+			isa = PBXGroup;
+			children = (
+				0B96378A24A1AE8000C5C881 /* WBConnector.h */,
+				0B96378B24A1AE8000C5C881 /* WBConnector.m */,
+			);
+			path = WristbandConnector;
+			sourceTree = "<group>";
+		};
 		0BD7ECB9249863FC00DECEB6 = {
 			isa = PBXGroup;
 			children = (
@@ -88,8 +97,8 @@
 		0BD7ECC4249863FC00DECEB6 /* IndirectTracing */ = {
 			isa = PBXGroup;
 			children = (
+				0B96378924A1AE6700C5C881 /* WristbandConnector */,
 				0BD7ED092499B83500DECEB6 /* WBScreen */,
-				0BD7ECFF2498B42800DECEB6 /* PeripheralManager */,
 				0BD7ECF82498A8F600DECEB6 /* FileControl */,
 				0BD7ECEA2498983400DECEB6 /* Settings */,
 				0BD7ECE224988E9A00DECEB6 /* IntroScreen */,
@@ -144,15 +153,6 @@
 				0BD7ECFD2498B40200DECEB6 /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		0BD7ECFF2498B42800DECEB6 /* PeripheralManager */ = {
-			isa = PBXGroup;
-			children = (
-				0BD7ED002498B43E00DECEB6 /* PeripheralManager.h */,
-				0BD7ED012498B43E00DECEB6 /* PeripheralManager.m */,
-			);
-			path = PeripheralManager;
 			sourceTree = "<group>";
 		};
 		0BD7ED092499B83500DECEB6 /* WBScreen */ = {
@@ -241,10 +241,10 @@
 				0BD7ECE524988EC300DECEB6 /* IntroViewController.m in Sources */,
 				0BD7ECEF2498990000DECEB6 /* Localizer.m in Sources */,
 				0BD7ECF524989B5500DECEB6 /* LogTool.m in Sources */,
-				0BD7ED022498B43E00DECEB6 /* PeripheralManager.m in Sources */,
 				0BD7ECC7249863FC00DECEB6 /* AppDelegate.m in Sources */,
 				0BD7ED0F2499B85B00DECEB6 /* WBViewController.m in Sources */,
 				0BD7ECD8249863FE00DECEB6 /* main.m in Sources */,
+				0B96378C24A1AE8000C5C881 /* WBConnector.m in Sources */,
 				0BD7ED0C2499B84C00DECEB6 /* WBNavViewController.m in Sources */,
 				0BD7ECCA249863FC00DECEB6 /* SceneDelegate.m in Sources */,
 				0BD7ECFB2498A90B00DECEB6 /* FileManager.m in Sources */,
