@@ -19,6 +19,16 @@
     // Override point for customization after application launch.
     return YES;
 }
+- (void)applicationWillEnterBackground:(UIApplication *)application{
+    
+}
+- (void)applicationDidEnterBackground:(UIApplication *)application{
+    
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application{
+    
+}
 
 
 #pragma mark - UISceneSession lifecycle

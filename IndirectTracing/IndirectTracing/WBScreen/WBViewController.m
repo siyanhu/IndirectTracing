@@ -7,9 +7,9 @@
 //
 
 #import "WBViewController.h"
-
+#import "WBConnector.h"
 @interface WBViewController ()
-
+@property(strong,nonatomic) WBConnector *WristBand;
 @end
 
 @implementation WBViewController
@@ -17,6 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"initWB");
+    self.WristBand= [[WBConnector alloc] initWBConnector:@"test"];
+//    [self.WristBand startScanPeripheral];
 }
 
 /*

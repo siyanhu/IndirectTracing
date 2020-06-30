@@ -7,24 +7,29 @@
 //
 
 #import "WBConnector.h"
-#import <CoreBluetooth/CoreBluetooth.h>
 #import "LogTool.h"
 
 @interface WBConnector () <CBCentralManagerDelegate, CBPeripheralDelegate> {
     dispatch_queue_t blequeue;
+    NSTimer *cbcTimer;
 }
 
 @property (nonatomic, strong) CBCentralManager *blemanager;
 @property (nonatomic, strong) CBPeripheral *connectedwb;
+@property (nonatomic,strong) NSString *lastTimeStamp;
 
 @end
 
 @implementation WBConnector
 
 static NSString *WB_ERROR_TAG = @"WBCONNECTOR_ERROR";
-static NSString *PUBLIC_SERVICE_ID = @"0x00";
-static NSString *WRITTABLE_SERVICE_ID = @"0x00";
-static NSString *READONLY_SERVICE_ID = @"0x00";
+static NSString *PUBLIC_SERVICE_ID = @"0000ffa1-0000-1000-8000-00805f9b34fb";
+static NSString *WRITTABLE_SERVICE_ID = @"0000ffb1-0000-1000-8000-00805f9b56fb";
+static NSString *READONLY_SERVICE_ID = @"0000ffb2-0000-1000-8000-00805f9b56fb";//0x00
+
+bool onceonly=false;
+
+
 
 - (id)initWBConnector:(NSString *)identity {
     self = [super init];
@@ -34,10 +39,14 @@ static NSString *READONLY_SERVICE_ID = @"0x00";
             CBCentralManagerScanOptionAllowDuplicatesKey: @NO,
             CBCentralManagerOptionRestoreIdentifierKey: @"tester"
         }];
+        
+        _lastTimeStamp=@"00 00 00 00 00";
+        NSLog(@"blemanager created");
         return self;
     }
     return nil;
 }
+
 
 #pragma mark - CBCentralManager Delegate
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
@@ -64,31 +73,59 @@ static NSString *READONLY_SERVICE_ID = @"0x00";
             [LogTool controllog:WB_ERROR_TAG content:error_message];
             break;
         case CBManagerStatePoweredOn:
-            break;
-        default:
-            break;
+            NSLog(@"PowerOn");
+            [self.blemanager scanForPeripheralsWithServices:nil/*[NSArray arrayWithObject:[CBUUID UUIDWithString:PUBLIC_SERVICE_ID]]*/
+            options:@{@"CBCentralManagerScanOptionAllowDuplicatesKey": @YES}];            break;
+            
+        
     }
 }
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(nonnull CBPeripheral *)peripheral advertisementData:(nonnull NSDictionary<NSString *,id> *)advertisementData RSSI:(nonnull NSNumber *)RSSI {
+    
     NSDictionary *info = advertisementData;
-    if (!info) {
+    if (RSSI.intValue<(-50)){
         return;
+    }else {
+        NSLog(@"name:%@,RSSI:%@",peripheral.name,RSSI);
     }
-    NSArray *serviceUUIDs = [info objectForKey:@"kCBAdvDataHashedServiceUUIDs"];
-    for (CBUUID *serviceUUID in serviceUUIDs) {
-        if ([serviceUUID.UUIDString isEqualToString:PUBLIC_SERVICE_ID]) {
-            [central connectPeripheral:peripheral options:nil];
-            break;
-        }
+    
+    if([peripheral.name isEqualToString:@"Tracing_Wristband"] ){
+        
+        [self.blemanager connectPeripheral:peripheral options:nil];
+        self.connectedwb=peripheral;
+        self.connectedwb.delegate=self;
+        [self.blemanager stopScan];
     }
+    
+    
+//    if (!info) {
+//        return;
+//    }
+//
+//    NSArray *serviceUUIDs = [info objectForKey:@"kCBAdvDataHashedServiceUUIDs"];
+//    if(serviceUUIDs){
+//        NSLog(@"ad:%@",advertisementData);}
+    
+//    for (CBUUID *serviceUUID in serviceUUIDs) {
+//        NSLog(@"serviceUUID",serviceUUID);
+//        if ([serviceUUID.UUIDString isEqualToString:PUBLIC_SERVICE_ID]) {
+//            [central connectPeripheral:peripheral options:nil];
+//            NSLog(@"connected to Peripheral with service UUID");
+//            break;
+//        }
+//    }
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
-    [self.blemanager stopScan];
+    
+    
+    NSLog(@" connected to peripheral");
+    
     peripheral.delegate = self;
     [peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:PUBLIC_SERVICE_ID]]];
-
+    
+    
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(nonnull CBPeripheral *)peripheral error:(nullable NSError *)error {
@@ -105,21 +142,49 @@ static NSString *READONLY_SERVICE_ID = @"0x00";
 
 #pragma mark - CBPeripheral Delegate
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
+    
+    NSLog(@"didDiscoverServices:\n");
     if (error) {
         NSLog(@"BLEReceiver error: %@", [error description]);
         return;
-    }
-
-    for (CBService *service in peripheral.services) {
-        [peripheral discoverCharacteristics:nil forService:service];
+    }else{
+        
+        for (CBService *service in peripheral.services) {
+            NSLog(@"Service found with UUID: %@\n", service.UUID);
+            [peripheral discoverCharacteristics:nil forService:service];
+        }
     }
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(nonnull CBService *)service error:(nullable NSError *)error {
+    NSLog(@"didDiscoverCHAR");
     for (CBService *service in peripheral.services) {
-        [self parseCharacters:service fromPeripheral:peripheral];
-    }
+           
+           
+            [self writeResponse:_lastTimeStamp toService:service fromPeripheral:peripheral];
+        }
+//        [self parseCharacters:service fromPeripheral:peripheral];
 }
+
+
+-(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    NSLog(@"didWriteCHAR1");
+    [self readContentFromService:characteristic.service fromPeripheral:peripheral];
+};
+
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error{
+    //read content from char2 FFB2
+    NSData *content = characteristic.value;
+    NSLog(@"READ :%@",content);
+    if (!onceonly) {
+        [self readContentFromService:characteristic.service fromPeripheral:peripheral];
+        onceonly=(!onceonly);
+    }
+
+    
+    
+    //split data, checksum, update last timestamp, write to write_char;
+};
 
 #pragma mark - Private Functions
 - (void)parseCharacters:(CBService *)service fromPeripheral:(CBPeripheral *)peripheral {
@@ -134,7 +199,7 @@ static NSString *READONLY_SERVICE_ID = @"0x00";
         return;
     }
     
-    NSString *response = @"02 00 0B 00 00 00 01 10 82 10 83 04 05 06 00 00 03";
+    NSString *response = @"00 00 00 00 00";
     [self writeResponse:response toService:service fromPeripheral:peripheral];
 }
 
@@ -146,9 +211,13 @@ static NSString *READONLY_SERVICE_ID = @"0x00";
     CBUUID *uuid_char = [CBUUID UUIDWithString:WRITTABLE_SERVICE_ID];
     CBCharacteristic *characteristic = [self findCharacteristicFromUUID:uuid_char service:service];
     [peripheral writeValue:data forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+    NSLog(@"writeCHAR");
 }
 
 - (void)readContentFromService:(CBService *)service fromPeripheral:(CBPeripheral *)peripheral {
+    CBUUID *uuid_char = [CBUUID UUIDWithString:READONLY_SERVICE_ID];
+    CBCharacteristic *characteristic = [self findCharacteristicFromUUID:uuid_char service:service];
+    [peripheral readValueForCharacteristic:characteristic];
     
 }
 
