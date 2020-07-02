@@ -16,7 +16,7 @@
 
 @property (nonatomic, strong) CBCentralManager *blemanager;
 @property (nonatomic, strong) CBPeripheral *connectedwb;
-@property (nonatomic,strong) NSString *lastTimeStamp;
+@property (nonatomic,strong) NSDate *data;
 
 @end
 
@@ -26,8 +26,12 @@ static NSString *WB_ERROR_TAG = @"WBCONNECTOR_ERROR";
 static NSString *PUBLIC_SERVICE_ID = @"0000ffa1-0000-1000-8000-00805f9b34fb";
 static NSString *WRITTABLE_SERVICE_ID = @"0000ffb1-0000-1000-8000-00805f9b56fb";
 static NSString *READONLY_SERVICE_ID = @"0000ffb2-0000-1000-8000-00805f9b56fb";//0x00
+NSString *lastTimeStamp;
+NSData *sequence_number;
 
-bool onceonly=false;
+int packet_total;
+NSData *nextTS;
+
 
 
 
@@ -40,7 +44,7 @@ bool onceonly=false;
             CBCentralManagerOptionRestoreIdentifierKey: @"tester"
         }];
         
-        _lastTimeStamp=@"00 00 00 00 00";
+        lastTimeStamp=@"00 00 00 00 00";
         NSLog(@"blemanager created");
         return self;
     }
@@ -159,10 +163,8 @@ bool onceonly=false;
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(nonnull CBService *)service error:(nullable NSError *)error {
     NSLog(@"didDiscoverCHAR");
     for (CBService *service in peripheral.services) {
-           
-           
-            [self writeResponse:_lastTimeStamp toService:service fromPeripheral:peripheral];
-        }
+        [self writeResponse:lastTimeStamp toService:service fromPeripheral:peripheral];
+    }
 //        [self parseCharacters:service fromPeripheral:peripheral];
 }
 
@@ -175,11 +177,54 @@ bool onceonly=false;
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error{
     //read content from char2 FFB2
     NSData *content = characteristic.value;
-    NSLog(@"READ :%@",content);
-    if (!onceonly) {
+    NSInteger length=[content length];
+    NSLog(@"READ %d bytes: %@",length,content);
+//    Byte *byteData =(Byte*) malloc(length);
+//    memcpy(byteData, [content bytes], length);
+    NSString *temp=[NSString alloc];
+    sequence_number=[content subdataWithRange:NSMakeRange(0, 1)];
+    NSLog(@"sequence#: %@",sequence_number.description);
+    
+    
+    
+    if ([sequence_number.description isEqualToString:@"<00>"]) {
+        nextTS=[content subdataWithRange:NSMakeRange(1, 5)];
+        NSData *MessageLength;
+        MessageLength=[content subdataWithRange:NSMakeRange(6, 1)];
+        NSLog(@"nextTS: %@,MessageLen: %@",nextTS.description,MessageLength.description);
+        NSData *vector=[content subdataWithRange:NSMakeRange(7, length-7)];
+       
+        [MessageLength getBytes:&packet_total length:sizeof(packet_total)];
+        NSLog(@"Message int: %d",packet_total);
+        while (vector.length>=7) {
+            //rangeData=NSMakeRange(0, 7);
+            //store 1st vector subdata {rssi+mac}
+            NSLog([vector subdataWithRange:NSMakeRange(0, 7)].description);
+            vector=[vector subdataWithRange:NSMakeRange(7, vector.length-7)];//remove stored data from vector
+        }
+    }else{
+        NSData *vector=[content subdataWithRange:NSMakeRange(1, length-1)];
+        
+        while (vector.length>=7) {
+            NSRange rangeData=NSMakeRange(0, 7);
+            //store vector subdata in range
+            vector=[vector subdataWithRange:NSMakeRange(7, vector.length-7)];
+        }
+    };
+    int i;
+    [sequence_number getBytes:&i length:sizeof(i)];
+    
+    if (i ==(packet_total-1)){
+        //write timestamp to get next vector
+        //if checked all packet receive,
+        NSLog(@"lastTS=nextTS:%@",nextTS.description);
+        //_lastTimeStamp=[_lastTimeStamp initWithData:nextTS encoding:NSUTF8StringEncoding];//update lastTS to nextTS
+        //[self writeResponse:_lastTimeStamp toService:characteristic.service fromPeripheral:peripheral];
+    }else{
+        //read next packet from char2
         [self readContentFromService:characteristic.service fromPeripheral:peripheral];
-        onceonly=(!onceonly);
     }
+
 
     
     
